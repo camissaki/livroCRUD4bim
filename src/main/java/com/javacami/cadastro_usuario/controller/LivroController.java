@@ -1,40 +1,58 @@
 package com.javacami.cadastro_usuario.controller;
 
-import com.javacami.cadastro_usuario.business.UsuarioService;
-import com.javacami.cadastro_usuario.infrastructure.enttys.Usuario;
+import com.javacami.cadastro_usuario.business.LivroService;
+import com.javacami.cadastro_usuario.infrastructure.enttys.Livro;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/usuario")
-@RequiredArgsConstructor
-public class UsuarioController {
+import java.util.List;
 
-    private final UsuarioService usuarioService;
+@RestController
+@RequestMapping("/livro")
+@RequiredArgsConstructor
+public class LivroController {
+
+    private final LivroService livroService;
 
     @PostMapping
-    public ResponseEntity<Void> salvarUsuario(@RequestBody Usuario usuario) {
-        usuarioService.salvarUsuario(usuario);
+    public ResponseEntity<Void> salvarLivro(@RequestBody Livro livro) {
+        livroService.salvarLivro(livro);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
-        return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
+    public ResponseEntity<Livro> buscarLivroPorTitulo(@RequestParam String titulo) {
+        return ResponseEntity.ok(livroService.buscarLivroPorTitulo(titulo));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deletarUsuarioPorEmail(@RequestParam String email) {
-        usuarioService.deletarUsuarioPorEmail(email);
+    @GetMapping("/all")
+    public ResponseEntity<List<Livro>> buscarTodosLivros() {
+        return ResponseEntity.ok(livroService.buscarTodosLivros());
+    }
+
+    @GetMapping("/autor")
+    public ResponseEntity<List<Livro>> buscarLivrosPorAutor(@RequestParam String autor) {
+        return ResponseEntity.ok(livroService.buscarLivrosPorAutor(autor));
+    }
+
+    @GetMapping("/genero")
+    public ResponseEntity<List<Livro>> buscarLivrosPorGenero(@RequestParam String genero) {
+        return ResponseEntity.ok(livroService.buscarLivrosPorGenero(genero));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarLivroPorId(@PathVariable Integer id) {
+        livroService.deletarLivroPorId(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizarUsuarioPorId(
+    public ResponseEntity<Void> atualizarLivroPorId(
             @PathVariable Integer id,
-            @RequestBody Usuario usuario) {
-        usuarioService.atualizarUsuarioPorId(id, usuario);
+            @RequestBody Livro livro) {
+        livroService.atualizarLivroPorId(id, livro);
         return ResponseEntity.ok().build();
     }
 }

@@ -8,9 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = " usuario")
 @Entity
-
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
@@ -22,5 +21,4 @@ public class Usuario {
 
     @Column(name= "nome")
     private String nome;
-
 }

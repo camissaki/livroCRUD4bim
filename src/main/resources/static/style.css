@@ -1,0 +1,345 @@
+/* NEOBRUTALISM STYLE - Biblioteca Digital */
+
+/* Reset e configurações básicas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', 'Monaco', monospace;
+    background: #FFE066;
+    min-height: 100vh;
+    color: #000;
+    line-height: 1.4;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    background: #000;
+    color: #FFE066;
+    padding: 40px;
+    border: 8px solid #000;
+    box-shadow: 12px 12px 0px #FF6B6B;
+    transform: rotate(-1deg);
+}
+
+header h1 {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 900;
+}
+
+header p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Seções */
+.section {
+    background: #FF6B6B;
+    margin-bottom: 30px;
+    padding: 40px;
+    border: 8px solid #000;
+    box-shadow: 12px 12px 0px #4ECDC4;
+    transform: rotate(0.5deg);
+    transition: all 0.2s ease;
+}
+
+.section:nth-child(even) {
+    transform: rotate(-0.5deg);
+    box-shadow: 12px 12px 0px #45B7D1;
+}
+
+.section:hover {
+    transform: rotate(0deg) scale(1.02);
+    box-shadow: 16px 16px 0px #4ECDC4;
+}
+
+.section h2 {
+    color: #000;
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 900;
+    border-bottom: 6px solid #000;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.section h3 {
+    color: #000;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    margin-top: 25px;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* Formulários */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+input, textarea, button {
+    padding: 20px 25px;
+    border: 6px solid #000;
+    border-radius: 0;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    background: #FFF;
+    color: #000;
+    transition: all 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    background: #FFE066;
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px #000;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Botões */
+button {
+    cursor: pointer;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 6px solid #000;
+    transition: all 0.1s ease;
+    position: relative;
+    background: #4ECDC4;
+    color: #000;
+    font-size: 16px;
+    padding: 20px 30px;
+}
+
+button:hover {
+    transform: translate(-6px, -6px);
+    box-shadow: 12px 12px 0px #000;
+}
+
+button:active {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+}
+
+.btn-primary {
+    background: #4ECDC4;
+    color: #000;
+    box-shadow: 8px 8px 0px #000;
+}
+
+.btn-primary:hover {
+    background: #45B7D1;
+    box-shadow: 12px 12px 0px #000;
+}
+
+.btn-secondary {
+    background: #45B7D1;
+    color: #000;
+    box-shadow: 8px 8px 0px #000;
+}
+
+.btn-secondary:hover {
+    background: #96CEB4;
+    box-shadow: 12px 12px 0px #000;
+}
+
+.btn-warning {
+    background: #FFE066;
+    color: #000;
+    box-shadow: 8px 8px 0px #000;
+}
+
+.btn-warning:hover {
+    background: #FFD93D;
+    box-shadow: 12px 12px 0px #000;
+}
+
+.btn-danger {
+    background: #FF6B6B;
+    color: #000;
+    box-shadow: 8px 8px 0px #000;
+}
+
+.btn-danger:hover {
+    background: #FF5252;
+    box-shadow: 12px 12px 0px #000;
+}
+
+/* Opções de busca */
+.search-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.search-group {
+    background: #96CEB4;
+    padding: 30px;
+    border: 6px solid #000;
+    box-shadow: 8px 8px 0px #000;
+    transition: all 0.1s ease;
+}
+
+.search-group:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px #000;
+}
+
+.search-group h3 {
+    color: #000;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* Resultado da busca */
+#resultadoBuscar {
+    background: #000;
+    color: #4ECDC4;
+    padding: 30px;
+    border: 6px solid #000;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 500px;
+    overflow-y: auto;
+    box-shadow: 8px 8px 0px #FF6B6B;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .section {
+        padding: 25px;
+        transform: rotate(0deg);
+    }
+    
+    .search-options {
+        grid-template-columns: 1fr;
+    }
+    
+    input, textarea, button {
+        font-size: 14px;
+        padding: 15px 20px;
+    }
+}
+
+/* Animações brutais */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.section {
+    animation: bounce 0.6s ease-out;
+}
+
+.section:nth-child(2) { animation-delay: 0.1s; }
+.section:nth-child(3) { animation-delay: 0.2s; }
+.section:nth-child(4) { animation-delay: 0.3s; }
+.section:nth-child(5) { animation-delay: 0.4s; }
+
+button:hover {
+    animation: shake 0.3s ease-in-out;
+}
+
+/* Scrollbar brutal */
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000;
+    border: 3px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FF6B6B;
+    border: 3px solid #000;
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4ECDC4;
+}
+
+/* Efeitos especiais */
+.section::before {
+    content: "📚";
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 2rem;
+    background: #000;
+    color: #FFE066;
+    padding: 10px;
+    border: 4px solid #000;
+    transform: rotate(15deg);
+}
+
+/* Texto com efeito */
+h1, h2, h3 {
+    text-shadow: 4px 4px 0px #000;
+}
+
+/* Inputs com personalidade */
+input::placeholder, textarea::placeholder {
+    color: #666;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

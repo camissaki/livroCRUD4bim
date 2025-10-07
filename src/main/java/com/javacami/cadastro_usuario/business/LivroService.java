@@ -1,38 +1,59 @@
 package com.javacami.cadastro_usuario.business;
 
-import com.javacami.cadastro_usuario.infrastructure.enttys.Usuario;
-import com.javacami.cadastro_usuario.infrastructure.repository.UsuarioRepository;
+import com.javacami.cadastro_usuario.infrastructure.enttys.Livro;
+import com.javacami.cadastro_usuario.infrastructure.repository.LivroRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
-public class UsuarioService {
+public class LivroService {
 
-    private final UsuarioRepository repository;
+    private final LivroRepository repository;
 
-    public UsuarioService(UsuarioRepository repository) {
+    public LivroService(LivroRepository repository) {
         this.repository = repository;
     }
 
-    public void salvarUsuario(Usuario usuario) {
-        repository.saveAndFlush(usuario);
+    public void salvarLivro(Livro livro) {
+        repository.saveAndFlush(livro);
     }
 
-    public Usuario buscarUsuarioPorEmail(String email) {
-        return repository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Email não encontrado"));
+    public Livro buscarLivroPorTitulo(String titulo) {
+        return repository.findByTitulo(titulo)
+                .orElseThrow(() -> new RuntimeException("Livro não encontrado"));
     }
 
-    public void deletarUsuarioPorEmail(String email) {
-        repository.deleteByEmail(email);
+    public List<Livro> buscarTodosLivros() {
+        return repository.findAll();
     }
 
-    public void atualizarUsuarioPorId(Integer id, Usuario usuario) {
-        Usuario usuarioEntity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+    public List<Livro> buscarLivrosPorAutor(String autor) {
+        return repository.findByAutorContainingIgnoreCase(autor);
+    }
 
-        usuarioEntity.setEmail(usuario.getEmail() != null ? usuario.getEmail() : usuarioEntity.getEmail());
-        usuarioEntity.setNome(usuario.getNome() != null ? usuario.getNome() : usuarioEntity.getNome());
+    public List<Livro> buscarLivrosPorGenero(String genero) {
+        return repository.findByGeneroContainingIgnoreCase(genero);
+    }
 
-        repository.saveAndFlush(usuarioEntity);
+
+    public void deletarLivroPorId(Integer id) {
+        repository.deleteById(id);
+    }
+
+    public void atualizarLivroPorId(Integer id, Livro livro) {
+        Livro livroEntity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Livro não encontrado"));
+
+        livroEntity.setTitulo(livro.getTitulo() != null ? livro.getTitulo() : livroEntity.getTitulo());
+        livroEntity.setAutor(livro.getAutor() != null ? livro.getAutor() : livroEntity.getAutor());
+        livroEntity.setIsbn(livro.getIsbn() != null ? livro.getIsbn() : livroEntity.getIsbn());
+        livroEntity.setAnoPublicacao(livro.getAnoPublicacao() != null ? livro.getAnoPublicacao() : livroEntity.getAnoPublicacao());
+        livroEntity.setGenero(livro.getGenero() != null ? livro.getGenero() : livroEntity.getGenero());
+        livroEntity.setEditora(livro.getEditora() != null ? livro.getEditora() : livroEntity.getEditora());
+        livroEntity.setDescricao(livro.getDescricao() != null ? livro.getDescricao() : livroEntity.getDescricao());
+
+        repository.saveAndFlush(livroEntity);
     }
 }

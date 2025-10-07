@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>📚 Biblioteca Digital</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📚 Biblioteca Digital</h1>
+        <p>Sistema de Gerenciamento de Livros</p>
+    </header>
+
+    <div class="section">
+        <h2>📖 Cadastrar Novo Livro</h2>
+        <div class="form-group">
+            <input type="text" id="titulo" placeholder="Título do Livro" required>
+            <input type="text" id="autor" placeholder="Autor" required>
+            <input type="text" id="isbn" placeholder="ISBN (opcional)">
+            <input type="number" id="anoPublicacao" placeholder="Ano de Publicação" min="1000" max="2024">
+            <input type="text" id="genero" placeholder="Gênero (ex: Ficção, Romance, etc.)">
+            <input type="text" id="editora" placeholder="Editora">
+            <textarea id="descricao" placeholder="Descrição do livro (opcional)" rows="3"></textarea>
+            <button onclick="criar()" class="btn-primary">📚 Cadastrar Livro</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔍 Buscar Livros</h2>
+        <div class="search-options">
+            <div class="search-group">
+                <h3>Por Título</h3>
+                <input type="text" id="buscarTitulo" placeholder="Digite o título">
+                <button onclick="buscarPorTitulo()" class="btn-secondary">🔍 Buscar</button>
+            </div>
+            
+            <div class="search-group">
+                <h3>Por Autor</h3>
+                <input type="text" id="buscarAutor" placeholder="Digite o autor">
+                <button onclick="buscarPorAutor()" class="btn-secondary">👤 Buscar</button>
+            </div>
+            
+            <div class="search-group">
+                <h3>Por Gênero</h3>
+                <input type="text" id="buscarGenero" placeholder="Digite o gênero">
+                <button onclick="buscarPorGenero()" class="btn-secondary">📂 Buscar</button>
+            </div>
+            
+            <div class="search-group">
+                <h3>Todos os Livros</h3>
+                <button onclick="buscarTodos()" class="btn-secondary">📋 Listar Todos</button>
+            </div>
+        </div>
+        <pre id="resultadoBuscar"></pre>
+    </div>
+
+    <div class="section">
+        <h2>🗑️ Deletar Livro</h2>
+        <div class="form-group">
+            <input type="number" id="deletarId" placeholder="ID do livro para deletar">
+            <button onclick="deletarPorId()" class="btn-danger">🗑️ Deletar por ID</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>✏️ Atualizar Livro</h2>
+        <div class="form-group">
+            <input type="number" id="id" placeholder="ID do livro" required>
+            <input type="text" id="novoTitulo" placeholder="Novo Título">
+            <input type="text" id="novoAutor" placeholder="Novo Autor">
+            <input type="text" id="novoIsbn" placeholder="Novo ISBN">
+            <input type="number" id="novoAnoPublicacao" placeholder="Novo Ano de Publicação" min="1000" max="2024">
+            <input type="text" id="novoGenero" placeholder="Novo Gênero">
+            <input type="text" id="novoEditora" placeholder="Nova Editora">
+            <textarea id="novaDescricao" placeholder="Nova Descrição" rows="3"></textarea>
+            <button onclick="atualizar()" class="btn-warning">✏️ Atualizar Livro</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const api = "/livro";
+
+    async function criar() {
+        const livro = {
+            titulo: document.getElementById("titulo").value,
+            autor: document.getElementById("autor").value,
+            isbn: document.getElementById("isbn").value,
+            anoPublicacao: document.getElementById("anoPublicacao").value ? parseInt(document.getElementById("anoPublicacao").value) : null,
+            genero: document.getElementById("genero").value,
+            editora: document.getElementById("editora").value,
+            descricao: document.getElementById("descricao").value
+        };
+
+        if (!livro.titulo || !livro.autor) {
+            alert("Título e Autor são obrigatórios!");
+            return;
+        }
+
+        const resp = await fetch(api, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(livro)
+        });
+        
+        if (resp.ok) {
+            alert("📚 Livro cadastrado com sucesso!");
+            limparFormulario();
+        } else {
+            alert("❌ Erro ao cadastrar livro!");
+        }
+    }
+
+    async function buscarPorTitulo() {
+        const titulo = document.getElementById("buscarTitulo").value;
+        if (!titulo) {
+            alert("Digite um título para buscar!");
+            return;
+        }
+        
+        const resp = await fetch(`${api}?titulo=${encodeURIComponent(titulo)}`);
+        if (resp.ok) {
+            const data = await resp.json();
+            document.getElementById("resultadoBuscar").innerText = JSON.stringify(data, null, 2);
+        } else {
+            document.getElementById("resultadoBuscar").innerText = "❌ Livro não encontrado!";
+        }
+    }
+
+    async function buscarPorAutor() {
+        const autor = document.getElementById("buscarAutor").value;
+        if (!autor) {
+            alert("Digite um autor para buscar!");
+            return;
+        }
+        
+        const resp = await fetch(`${api}/autor?autor=${encodeURIComponent(autor)}`);
+        if (resp.ok) {
+            const data = await resp.json();
+            document.getElementById("resultadoBuscar").innerText = JSON.stringify(data, null, 2);
+        } else {
+            document.getElementById("resultadoBuscar").innerText = "❌ Nenhum livro encontrado para este autor!";
+        }
+    }
+
+    async function buscarPorGenero() {
+        const genero = document.getElementById("buscarGenero").value;
+        if (!genero) {
+            alert("Digite um gênero para buscar!");
+            return;
+        }
+        
+        const resp = await fetch(`${api}/genero?genero=${encodeURIComponent(genero)}`);
+        if (resp.ok) {
+            const data = await resp.json();
+            document.getElementById("resultadoBuscar").innerText = JSON.stringify(data, null, 2);
+        } else {
+            document.getElementById("resultadoBuscar").innerText = "❌ Nenhum livro encontrado para este gênero!";
+        }
+    }
+
+    async function buscarTodos() {
+        const resp = await fetch(`${api}/all`);
+        if (resp.ok) {
+            const data = await resp.json();
+            document.getElementById("resultadoBuscar").innerText = JSON.stringify(data, null, 2);
+        } else {
+            document.getElementById("resultadoBuscar").innerText = "❌ Erro ao buscar livros!";
+        }
+    }
+
+
+    async function deletarPorId() {
+        const id = document.getElementById("deletarId").value;
+        if (!id) {
+            alert("Digite um ID para deletar!");
+            return;
+        }
+        
+        const resp = await fetch(`${api}/${id}`, { method: "DELETE" });
+        if (resp.ok) {
+            alert("🗑️ Livro deletado com sucesso!");
+        } else {
+            alert("❌ Erro ao deletar livro!");
+        }
+    }
+
+    async function atualizar() {
+        const id = document.getElementById("id").value;
+        if (!id) {
+            alert("Digite um ID para atualizar!");
+            return;
+        }
+
+        const livro = {
+            titulo: document.getElementById("novoTitulo").value,
+            autor: document.getElementById("novoAutor").value,
+            isbn: document.getElementById("novoIsbn").value,
+            anoPublicacao: document.getElementById("novoAnoPublicacao").value ? parseInt(document.getElementById("novoAnoPublicacao").value) : null,
+            genero: document.getElementById("novoGenero").value,
+            editora: document.getElementById("novoEditora").value,
+            descricao: document.getElementById("novaDescricao").value
+        };
+
+        const resp = await fetch(`${api}/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(livro)
+        });
+        
+        if (resp.ok) {
+            alert("✏️ Livro atualizado com sucesso!");
+            limparFormularioAtualizacao();
+        } else {
+            alert("❌ Erro ao atualizar livro!");
+        }
+    }
+
+    function limparFormulario() {
+        document.getElementById("titulo").value = "";
+        document.getElementById("autor").value = "";
+        document.getElementById("isbn").value = "";
+        document.getElementById("anoPublicacao").value = "";
+        document.getElementById("genero").value = "";
+        document.getElementById("editora").value = "";
+        document.getElementById("descricao").value = "";
+    }
+
+    function limparFormularioAtualizacao() {
+        document.getElementById("id").value = "";
+        document.getElementById("novoTitulo").value = "";
+        document.getElementById("novoAutor").value = "";
+        document.getElementById("novoIsbn").value = "";
+        document.getElementById("novoAnoPublicacao").value = "";
+        document.getElementById("novoGenero").value = "";
+        document.getElementById("novoEditora").value = "";
+        document.getElementById("novaDescricao").value = "";
+    }
+</script>
+</body>
+</html>

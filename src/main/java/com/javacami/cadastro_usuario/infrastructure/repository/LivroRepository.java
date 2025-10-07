@@ -1,17 +1,17 @@
 package com.javacami.cadastro_usuario.infrastructure.repository;
 
-
-
-import com.javacami.cadastro_usuario.infrastructure.enttys.Usuario;
-import jakarta.transaction.Transactional;
+import com.javacami.cadastro_usuario.infrastructure.enttys.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface LivroRepository extends JpaRepository<Livro, Integer> {
 
-    Optional<Usuario> findByEmail(String email);
+    Optional<Livro> findByTitulo(String titulo);
 
-    @Transactional
-    void  deleteByEmail(String email);
+
+    List<Livro> findByAutorContainingIgnoreCase(String autor);
+
+    List<Livro> findByGeneroContainingIgnoreCase(String genero);
 }
